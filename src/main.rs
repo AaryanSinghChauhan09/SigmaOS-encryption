@@ -1,0 +1,26 @@
+use anyhow::Result;
+use clap::Parser;
+use encryption::encryption;
+
+#[derive(Parser)]
+struct Cli {
+    #[arg(short, long)]
+    debug: bool,
+}
+
+fn main() -> Result<()> {
+    let cli = Cli::parse();
+    let config = encryption::Config { debug: cli.debug, ..Default::default() };
+    let mut component = encryption::new(config);
+    
+    component.initialize()?;
+    component.start()?;
+    
+    println!("SigmaOS-encryption running (Ctrl+C to stop)");
+    tokio::runtime::Runtime::new()?.block_on(async {
+        tokio::signal::ctrl_c().await.unwrap();
+    });
+    
+    component.stop()?;
+    Ok(())
+}
