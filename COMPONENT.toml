@@ -3,7 +3,7 @@ name = "SigmaOS-encryption"
 tier = 2
 stability = "scaffold"
 language = "rust"
-description = "encryption component"
+description = "No GitHub description is set; component scope remains unclassified."
 upstream = []
 
 [contract]
